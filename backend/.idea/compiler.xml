@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="shared-kernel" />
+        <module name="lib-resource" />
       </profile>
       <profile name="Annotation profile for Sentinel Backend" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -19,6 +20,9 @@
         <module name="gateway" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="shared-kernel" target="21" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
