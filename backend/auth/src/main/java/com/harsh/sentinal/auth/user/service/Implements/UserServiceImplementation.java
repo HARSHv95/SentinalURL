@@ -10,19 +10,20 @@ import com.harsh.sentinal.auth.user.exception.UserExistsException;
 import com.harsh.sentinal.auth.user.exception.UserNotFoundException;
 import com.harsh.sentinal.auth.user.repository.UserRepo;
 import com.harsh.sentinal.auth.user.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImplementation implements UserService {
 
-    @Autowired
     private UserRepo userRepo;
-
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public RegisterResponse registerUser(RegisterRequest userInfo){
@@ -32,7 +33,7 @@ public class UserServiceImplementation implements UserService {
             if(checkifUserExists != null){
                 throw new UserExistsException();
             }
-            String hashedPassword = encoder.encode(userInfo.password());
+            String hashedPassword = passwordEncoder.encode(userInfo.password());
             User newUser = new User();
             newUser.setFirst_name(userInfo.firstName());
             newUser.setLast_name(userInfo.lastName());
@@ -46,21 +47,5 @@ public class UserServiceImplementation implements UserService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public ResponseEntity<String> loginUser(LoginRequest loginInfo){
-        User checkIfUserExists = userRepo.findByEmail(loginInfo.emailId()).orElse(null);
-
-        if(checkIfUserExists == null){
-            throw new UserNotFoundException();
-        }
-
-        boolean checkIfPasswordMatches = encoder.matches(loginInfo.password(), checkIfUserExists.getPassword());
-
-        if(!checkIfPasswordMatches){
-            throw new IncorrectPasswordException();
-        }
-
-        return new ResponseEntity<>("Login Successfull!!", HttpStatus.ACCEPTED);
     }
 }
