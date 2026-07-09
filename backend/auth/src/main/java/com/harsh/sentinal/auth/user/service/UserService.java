@@ -8,6 +8,4 @@ import org.springframework.http.ResponseEntity;
 public interface UserService {
 
     public RegisterResponse registerUser(RegisterRequest userInfo);
-
-    public ResponseEntity<String> loginUser(LoginRequest loginInfo);
 }
