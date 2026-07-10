@@ -1,6 +1,8 @@
 package com.harsh.sentinal.auth.user.dto;
 
 public record LoginResponse(
-    String message,
-    String authToken
+    String accessToken,
+    String tokenType,
+    Long expiresIn,
+    UserInfoLoginResponse user
 ) {}

@@ -15,6 +15,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepo userRepo;
 
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User checkIfUserExists = userRepo.findByEmail(username).orElse(null);
@@ -22,7 +23,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         if(checkIfUserExists == null){
             throw new UsernameNotFoundException("Username Not Registered!!!");
         }
-
         return new CustomUserDetails(checkIfUserExists);
     }
 }
