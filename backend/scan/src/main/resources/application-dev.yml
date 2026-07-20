@@ -1,10 +1,9 @@
 server:
-  port: 8081
+  port: 8082
 
 spring:
-
   datasource:
-    url: jdbc:postgresql://localhost:5432/auth
+    url: jdbc:postgresql://localhost:5432/scan
     username: postgres
     password: ak5hu2412
     driver-class-name: org.postgresql.Driver

@@ -40,7 +40,7 @@ public class AuthenticationService {
 
         User user = userDetails.getUser();
 
-        String authToken = jwtService.generateToken(userDetails.getUsername(), userDetails.getAuthorities().toString());
+        String authToken = jwtService.generateToken(userDetails.getUsername(), user.getRole().toString(), user.getId());
 
         return new LoginResponse(authToken, "Bearer", expiration, new UserInfoLoginResponse(user.getFirst_name(), user.getLast_name(), user.getEmail(), user.getRole()));
     }

@@ -22,7 +22,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserServiceImplementation implements UserService {
 
+    @Autowired
     private UserRepo userRepo;
+
     private final PasswordEncoder passwordEncoder;
 
     @Override
