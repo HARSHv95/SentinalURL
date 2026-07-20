@@ -1,6 +1,6 @@
 spring:
   application:
-    name: auth-service
+    name: scan-service
   jpa:
     show-sql: true
 
@@ -13,3 +13,7 @@ logging:
     org.hibernate.orm.jdbc.bind: TRACE
     org.springframework.transaction: TRACE
     org.springframework.orm.jpa: DEBUG
+
+virustotal:
+  api-key: 63b527b45a9ca168c704b1d3d4169b1e2f1af39a4a03aec3ca90a2ed6fd9e383
+  base-url: https://www.virustotal.com/api/v3

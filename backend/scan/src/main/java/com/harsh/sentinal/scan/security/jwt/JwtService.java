@@ -1,9 +1,7 @@
-package com.harsh.sentinal.auth.security.jwt;
+package com.harsh.sentinal.scan.security.jwt;
 
-import com.harsh.sentinal.auth.user.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,8 +11,6 @@ import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -31,32 +27,6 @@ public class JwtService {
         return Keys.hmacShaKeyFor(
                 Decoders.BASE64.decode(sercret_key)
         );
-    }
-
-    public String generateToken(String username, String role, UUID userId) {
-
-        Date now = new Date();
-        Date expiry = new Date(now.getTime() + expiration);
-
-        Map<String, Object> claims = new HashMap<>();
-
-        claims.put("role", role);
-        claims.put("userId", userId.toString());
-
-        return Jwts.builder()
-
-                .claims(claims)
-
-                .subject(username)
-
-                .issuedAt(now)
-
-                .expiration(expiry)
-
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
-
-                .compact();
-
     }
 
     private Claims extractAllClaims(String token){
@@ -85,6 +55,16 @@ public class JwtService {
 
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
+    }
+
+    public UUID extractUserId(String token) {
+        return UUID.fromString(
+                extractAllClaims(token).get("userId", String.class)
+        );
+    }
+
+    public String extractRole(String token) {
+        return extractAllClaims(token).get("role", String.class);
     }
 
     public boolean isTokenValid(
