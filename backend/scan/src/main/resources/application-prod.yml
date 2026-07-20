@@ -1,2 +1,32 @@
 server:
-  port: 8082
+  port: ${SERVER_PORT_SCAN}
+
+spring:
+
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_USER}:${POSTGRES_PORT}/${POSTGRES_SCAN}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+    open-in-view: false
+
+    properties:
+      hibernate:
+        format_sql: true
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: ${JWT_EXPIRATION}
+
+virustotal:
+  api-key: ${VIRUSTOTAL_API_KEY}
+  base-url: ${VIRUSTOTAL_API_URL}
