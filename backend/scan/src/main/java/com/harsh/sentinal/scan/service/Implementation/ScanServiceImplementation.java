@@ -74,27 +74,33 @@ public class ScanServiceImplementation implements ScanService {
                 ZoneId.of("Asia/Kolkata")
         ));
 
-        AnalysisReport report = analysisRepo.getAnalysisReportByScanId(scanId);
-        response.setAnalysisReport(report);
+        if(scan.getScanStatus() == ScanStatus.COMPLETED){
+            AnalysisReport report = analysisRepo.getAnalysisReportByScanId(scanId);
+            response.setAnalysisReport(report);
 
-        int score = (report.getMalicious() * 20) + (report.getSuspicious() * 10);
-        score = Math.min(score,100);
+            int score = (report.getMalicious() * 20) + (report.getSuspicious() * 10);
+            score = Math.min(score,100);
 
-        float total_engines = report.getHarmless() + report.getSuspicious() + report.getMalicious() + report.getUndetected();
+            float total_engines = report.getHarmless() + report.getSuspicious() + report.getMalicious() + report.getUndetected();
 
-        int confidence = Math.round((report.getMalicious() + report.getSuspicious()) * 100 / total_engines);
+            int confidence = Math.round((report.getMalicious() + report.getSuspicious()) * 100 / total_engines);
 
-        RiskReport riskReport = new RiskReport();
-        riskReport.setRiskScore(score);
-        riskReport.setConfidence(confidence);
+            RiskReport riskReport = new RiskReport();
+            riskReport.setRiskScore(score);
+            riskReport.setConfidence(confidence);
 
-        if(score >= 0 && score <= 10){ riskReport.setVerdict(Verdict.SAFE);}
-        else if(score >= 11 && score <= 30) { riskReport.setVerdict(Verdict.LOW_RISK);}
-        else if(score >= 31 && score <= 60){ riskReport.setVerdict(Verdict.MEDIUM_RISK);}
-        else if(score >= 71 && score <= 90){ riskReport.setVerdict(Verdict.HIGH_RISK);}
-        else{ riskReport.setVerdict(Verdict.CRITICAL);}
+            if(score >= 0 && score <= 10){ riskReport.setVerdict(Verdict.SAFE);}
+            else if(score >= 11 && score <= 30) { riskReport.setVerdict(Verdict.LOW_RISK);}
+            else if(score >= 31 && score <= 60){ riskReport.setVerdict(Verdict.MEDIUM_RISK);}
+            else if(score >= 71 && score <= 90){ riskReport.setVerdict(Verdict.HIGH_RISK);}
+            else{ riskReport.setVerdict(Verdict.CRITICAL);}
 
-        response.setRiskReport(riskReport);
+            response.setRiskReport(riskReport);
+        }
+        else{
+            response.setAnalysisReport(null);
+            response.setRiskReport(null);
+        }
         return response;
     }
 
