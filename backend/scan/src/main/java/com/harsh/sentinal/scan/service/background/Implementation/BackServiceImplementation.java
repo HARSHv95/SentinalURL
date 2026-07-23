@@ -18,7 +18,6 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-@Async
 public class BackServiceImplementation implements BackService {
 
     private final VirusTotalClient virusTotalClient;
@@ -31,6 +30,7 @@ public class BackServiceImplementation implements BackService {
 
 
     @Override
+    @Async
     public void processScan(UUID scanId, String url) {
         try {
 
