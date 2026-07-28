@@ -1,4 +1,5 @@
 import { Bell, Search, UserCircle2 } from "lucide-react";
+import UserMenu from "../../features/auth/components/UserMenu";
 
 const Navbar = () => {
   return (
@@ -26,14 +27,7 @@ const Navbar = () => {
 
         <button className="flex items-center gap-2">
 
-          <UserCircle2 size={34} />
-
-          <div className="text-left">
-            <p className="font-medium">Harsh</p>
-            <p className="text-xs text-muted-foreground">
-              Security Analyst
-            </p>
-          </div>
+          <UserMenu />
 
         </button>
 
