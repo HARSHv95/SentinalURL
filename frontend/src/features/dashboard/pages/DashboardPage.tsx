@@ -1,61 +1,84 @@
 import {
-    Shield,
-    ShieldCheck,
-    ShieldAlert,
-    Clock3
+  Shield,
+  ShieldAlert,
+  ShieldCheck,
+  Clock3,
 } from "lucide-react";
 
+import LatestReports from "../components/LatestReports";
+import QuickActions from "../components/QuickActions";
+import RecentActivity from "../components/RecentActivity";
 import StatCard from "../../../shared/components/StatCard";
+import PageHeader from "../../../shared/components/PageHeader";
+
+import { useReportStats } from "../../report/hooks/useReportStats";
 
 const DashboardPage = () => {
+  const { data, isLoading } = useReportStats();
 
-    return (
+  const summary = data?.summary;
 
-        <>
-            <div className="mb-8">
+  return (
+    <div className="space-y-8">
 
-    <h1 className="text-4xl font-bold">
-        Welcome back 👋
-    </h1>
 
-    <p className="text-muted-foreground mt-2">
-        Start scanning URLs to detect phishing,
-        malware and malicious websites.
-    </p>
 
-</div>
-            <div className="grid grid-cols-4 gap-6">
+      {/* Welcome */}
+        <PageHeader
+        title="Dashboard"
+        description="Monitor URL scans and detect malicious websites."
+      />
 
-                <StatCard
-                    title="Total Scans"
-                    value={0}
-                    icon={<Shield />}
-                />
+      {/* Stats */}
 
-                <StatCard
-                    title="Safe URLs"
-                    value={0}
-                    icon={<ShieldCheck />}
-                />
+      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
 
-                <StatCard
-                    title="Suspicious"
-                    value={0}
-                    icon={<Clock3 />}
-                />
+        <StatCard
+          title="Total Scans"
+          value={isLoading ? "—" : summary?.totalScans ?? 0}
+          description="No scans yet."
+          icon={<Shield size={28} />}
+        />
 
-                <StatCard
-                    title="Malicious"
-                    value={0}
-                    icon={<ShieldAlert />}
-                />
+        <StatCard
+          title="Safe URLs"
+          value={isLoading ? "—" : summary?.safeCount ?? 0}
+          description="Everything is safe."
+          icon={<ShieldCheck size={28} />}
+        />
 
-            </div>
+        <StatCard
+          title="Suspicious"
+          value={isLoading ? "—" : summary?.suspiciousCount ?? 0}
+          description="Nothing suspicious."
+          icon={<Clock3 size={28} />}
+        />
 
-        </>
+        <StatCard
+          title="Malicious"
+          value={isLoading ? "—" : summary?.maliciousCount ?? 0}
+          description="No threats found."
+          icon={<ShieldAlert size={28} />}
+        />
 
-    );
+      </div>
 
+      {/* Lower Section */}
+
+      <div className="grid gap-6 lg:grid-cols-3">
+
+        <div className="lg:col-span-2">
+          <RecentActivity />
+        </div>
+
+        <QuickActions />
+
+      </div>
+
+      <LatestReports />
+
+    </div>
+  );
 };
 
 export default DashboardPage;

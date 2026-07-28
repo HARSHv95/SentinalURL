@@ -6,30 +6,32 @@ import {
   User,
 } from "lucide-react";
 
+import { ROUTES } from "./routes";
+
 export const navigation = [
   {
     title: "Dashboard",
-    path: "/dashboard",
+    path: ROUTES.DASHBOARD,
     icon: LayoutDashboard,
   },
   {
     title: "Scan URL",
-    path: "/scan",
+    path: ROUTES.SCAN,
     icon: ScanSearch,
   },
   {
     title: "History",
-    path: "/history",
+    path: ROUTES.HISTORY,
     icon: History,
   },
   {
     title: "Reports",
-    path: "/report",
+    path: ROUTES.REPORTS,
     icon: FileText,
   },
   {
     title: "Profile",
-    path: "/profile",
+    path: ROUTES.PROFILE,
     icon: User,
   },
 ];
