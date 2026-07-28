@@ -83,18 +83,7 @@ public class ScanServiceImplementation implements ScanService {
 
         PageRequest pageRequest = PageRequest.of(safePage, safeSize, sort.toSort());
 
-        return scanRepo.findAll(spec, pageRequest).map(this::toScanReport);
-    }
-
-    private ScanReport toScanReport(Scan scan) {
-        return new ScanReport(
-                scan.getId(),
-                scan.getUrl(),
-                scan.getStatus(),
-                scan.getRiskScore(),
-                scan.getVerdict(),
-                scan.getCreatedAt()
-        );
+        return scanRepo.findAll(spec, pageRequest).map(ScanReport::from);
     }
 
     @Override
