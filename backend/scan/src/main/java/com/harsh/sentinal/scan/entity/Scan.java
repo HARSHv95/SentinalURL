@@ -1,6 +1,7 @@
 package com.harsh.sentinal.scan.entity;
 
 import com.harsh.sentinal.scan.common.enums.ScanStatus;
+import com.harsh.sentinal.scan.common.enums.Verdict;
 import com.harsh.sentinal.scan.dto.AnalysisResponse;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,8 +25,8 @@ public class Scan {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false)
-    private UUID user_id;
+    @Column(name = "user_id", nullable = false)
+    private UUID userId;
 
     @Column(nullable = false)
     private String url;
@@ -34,15 +35,19 @@ public class Scan {
     @Column(nullable = false)
     private ScanStatus status;
 
-    @Column(nullable = true)
-    private int risk_score;
+    @Column(name = "risk_score", nullable = true)
+    private int riskScore;
 
-    @Column(nullable = false)
-    @CreationTimestamp
-    private Instant created_at;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = true, length = 30)
+    private Verdict verdict;
 
-    @Column(nullable = false)
+    @Column(name = "created_at", nullable = false)
     @CreationTimestamp
-    private Instant updated_at;
+    private Instant createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    @CreationTimestamp
+    private Instant updatedAt;
 
 }

@@ -2,12 +2,14 @@ package com.harsh.sentinal.scan.service.background.Implementation;
 
 import com.harsh.sentinal.scan.common.enums.ScanStatus;
 import com.harsh.sentinal.scan.dto.AnalysisResponse;
+import com.harsh.sentinal.scan.dto.RiskReport;
 import com.harsh.sentinal.scan.entity.Analysis;
 import com.harsh.sentinal.scan.entity.Scan;
 import com.harsh.sentinal.scan.integration.virustotal.VirusTotalClient;
 import com.harsh.sentinal.scan.repository.AnalysisRepo;
 import com.harsh.sentinal.scan.repository.ScanRepo;
 import com.harsh.sentinal.scan.service.background.BackService;
+import com.harsh.sentinal.scan.util.RiskScoreCalculator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -49,15 +51,20 @@ public class BackServiceImplementation implements BackService {
             Scan scan = scanRepo.findById(scanId)
                     .orElseThrow();
 
-            scan.setUpdated_at(Instant.now());
+            scan.setUpdatedAt(Instant.now());
             scan.setStatus(ScanStatus.COMPLETED);
 
-            scan.setRisk_score(
-                    response.data()
-                            .attributes()
-                            .stats()
-                            .malicious()
+            AnalysisResponse.Stats stats = response.data().attributes().stats();
+
+            RiskReport riskReport = RiskScoreCalculator.calculate(
+                    stats.malicious(),
+                    stats.harmless(),
+                    stats.suspicious(),
+                    stats.undetected()
             );
+
+            scan.setRiskScore(riskReport.getRiskScore());
+            scan.setVerdict(riskReport.getVerdict());
 
             Analysis analysis = new Analysis();
 

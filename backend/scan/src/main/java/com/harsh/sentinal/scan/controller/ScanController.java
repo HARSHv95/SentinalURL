@@ -1,5 +1,8 @@
 package com.harsh.sentinal.scan.controller;
 
+import com.harsh.sentinal.scan.common.enums.ScanSortOption;
+import com.harsh.sentinal.scan.common.enums.ScanStatus;
+import com.harsh.sentinal.scan.common.enums.Verdict;
 import com.harsh.sentinal.scan.dto.AnalysisResponse;
 import com.harsh.sentinal.scan.dto.ScanReport;
 import com.harsh.sentinal.scan.dto.ScanRequest;
@@ -11,13 +14,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -45,8 +45,13 @@ public class ScanController {
     @GetMapping("/all")
     public Page<ScanReport> getAllScans(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            Pageable pageable){
-        return scanService.getAllScans(userDetails, pageable);
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) ScanStatus status,
+            @RequestParam(required = false) Verdict verdict,
+            @RequestParam(defaultValue = "newest") ScanSortOption sort){
+        return scanService.getAllScans(userDetails, page, size, search, status, verdict, sort);
     }
 
     @GetMapping("/id")

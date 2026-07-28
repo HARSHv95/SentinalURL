@@ -1,5 +1,6 @@
 package com.harsh.sentinal.scan.service.Implementation;
 
+import com.harsh.sentinal.scan.common.enums.ScanSortOption;
 import com.harsh.sentinal.scan.common.enums.ScanStatus;
 import com.harsh.sentinal.scan.common.enums.Verdict;
 import com.harsh.sentinal.scan.dto.*;
@@ -7,26 +8,30 @@ import com.harsh.sentinal.scan.entity.Scan;
 import com.harsh.sentinal.scan.integration.virustotal.VirusTotalClient;
 import com.harsh.sentinal.scan.repository.AnalysisRepo;
 import com.harsh.sentinal.scan.repository.ScanRepo;
+import com.harsh.sentinal.scan.repository.specification.ScanSpecifications;
 import com.harsh.sentinal.scan.security.principal.CustomUserDetails;
 import com.harsh.sentinal.scan.service.ScanService;
 import com.harsh.sentinal.scan.service.background.BackService;
-import com.harsh.sentinal.scan.util.UrlValidator;
+import com.harsh.sentinal.scan.util.RiskScoreCalculator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class ScanServiceImplementation implements ScanService {
+
+    private static final int MIN_PAGE_SIZE = 1;
+    private static final int MAX_PAGE_SIZE = 50;
 
     @Autowired
     private ScanRepo scanRepo;
@@ -45,7 +50,7 @@ public class ScanServiceImplementation implements ScanService {
 
 
         Scan newScan = new Scan();
-        newScan.setUser_id(customUserDetails.getUserId());
+        newScan.setUserId(customUserDetails.getUserId());
         newScan.setUrl(scanRequest.url());
         newScan.setStatus(ScanStatus.PENDING);
 
@@ -53,12 +58,43 @@ public class ScanServiceImplementation implements ScanService {
 
         backService.processScan(newScan.getId(), newScan.getUrl());
 
-        return new ScanResponse(newScan.getId(), newScan.getUrl(), newScan.getStatus().name(), LocalDateTime.ofInstant(newScan.getCreated_at(), ZoneId.of("Asia/Kolkata")), null, null);
+        return new ScanResponse(newScan.getId(), newScan.getUrl(), newScan.getStatus().name(), LocalDateTime.ofInstant(newScan.getCreatedAt(), ZoneId.of("Asia/Kolkata")), null, null);
     }
 
     @Override
-    public Page<ScanReport> getAllScans(CustomUserDetails userDetails, Pageable pageable) {
-        return scanRepo.getAllScans(userDetails.getUserId(), pageable);
+    public Page<ScanReport> getAllScans(
+            CustomUserDetails userDetails,
+            int page,
+            int size,
+            String search,
+            ScanStatus status,
+            Verdict verdict,
+            ScanSortOption sort) {
+
+        int safePage = Math.max(page, 0);
+        int safeSize = Math.min(Math.max(size, MIN_PAGE_SIZE), MAX_PAGE_SIZE);
+
+        Specification<Scan> spec = Specification.allOf(
+                ScanSpecifications.belongsToUser(userDetails.getUserId()),
+                ScanSpecifications.urlContains(search),
+                ScanSpecifications.hasStatus(status),
+                ScanSpecifications.hasVerdict(verdict)
+        );
+
+        PageRequest pageRequest = PageRequest.of(safePage, safeSize, sort.toSort());
+
+        return scanRepo.findAll(spec, pageRequest).map(this::toScanReport);
+    }
+
+    private ScanReport toScanReport(Scan scan) {
+        return new ScanReport(
+                scan.getId(),
+                scan.getUrl(),
+                scan.getStatus(),
+                scan.getRiskScore(),
+                scan.getVerdict(),
+                scan.getCreatedAt()
+        );
     }
 
     @Override
@@ -70,32 +106,14 @@ public class ScanServiceImplementation implements ScanService {
         response.setUrl(scan.getUrl());
         response.setStatus(scan.getScanStatus().name());
         response.setCreatedAt(LocalDateTime.ofInstant(
-                scan.getCreated_at(),
+                scan.getCreatedAt(),
                 ZoneId.of("Asia/Kolkata")
         ));
 
         if(scan.getScanStatus() == ScanStatus.COMPLETED){
             AnalysisReport report = analysisRepo.getAnalysisReportByScanId(scanId);
             response.setAnalysisReport(report);
-
-            int score = (report.getMalicious() * 20) + (report.getSuspicious() * 10);
-            score = Math.min(score,100);
-
-            float total_engines = report.getHarmless() + report.getSuspicious() + report.getMalicious() + report.getUndetected();
-
-            int confidence = Math.round((report.getMalicious() + report.getSuspicious()) * 100 / total_engines);
-
-            RiskReport riskReport = new RiskReport();
-            riskReport.setRiskScore(score);
-            riskReport.setConfidence(confidence);
-
-            if(score >= 0 && score <= 10){ riskReport.setVerdict(Verdict.SAFE);}
-            else if(score >= 11 && score <= 30) { riskReport.setVerdict(Verdict.LOW_RISK);}
-            else if(score >= 31 && score <= 60){ riskReport.setVerdict(Verdict.MEDIUM_RISK);}
-            else if(score >= 71 && score <= 90){ riskReport.setVerdict(Verdict.HIGH_RISK);}
-            else{ riskReport.setVerdict(Verdict.CRITICAL);}
-
-            response.setRiskReport(riskReport);
+            response.setRiskReport(RiskScoreCalculator.calculate(report));
         }
         else{
             response.setAnalysisReport(null);
