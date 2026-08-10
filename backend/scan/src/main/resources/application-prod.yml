@@ -30,3 +30,27 @@ jwt:
 virustotal:
   api-key: ${VIRUSTOTAL_API_KEY}
   base-url: ${VIRUSTOTAL_API_URL}
+
+urlhaus:
+  auth-key: ${URLHAUS_AUTH_KEY:}
+  base-url: https://urlhaus-api.abuse.ch/v1
+
+openphish:
+  feed-url: https://raw.githubusercontent.com/openphish/public_feed/refs/heads/main/feed.txt
+
+phishtank:
+  app-key: ${PHISHTANK_APP_KEY:}
+  base-url: https://checkurl.phishtank.com/checkurl
+
+google-safe-browsing:
+  api-key: ${GOOGLE_SAFE_BROWSING_API_KEY:}
+  base-url: https://safebrowsing.googleapis.com
+
+abuseipdb:
+  api-key: ${ABUSEIPDB_API_KEY:}
+  base-url: https://api.abuseipdb.com
+
+openai:
+  api-key: ${OPENAI_API_KEY:}
+  base-url: https://api.openai.com
+  model: ${OPENAI_MODEL:gpt-4o-mini}

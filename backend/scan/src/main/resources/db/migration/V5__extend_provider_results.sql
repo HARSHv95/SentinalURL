@@ -1,0 +1,9 @@
+ALTER TABLE provider_results
+    ADD COLUMN status VARCHAR(20) NOT NULL DEFAULT 'AVAILABLE',
+    ADD COLUMN suspicious BOOLEAN NOT NULL DEFAULT FALSE,
+    ADD COLUMN categories JSONB,
+    ADD COLUMN reference VARCHAR(500),
+    ADD COLUMN checked_at TIMESTAMP;
+
+ALTER TABLE provider_results
+    ALTER COLUMN status DROP DEFAULT;
