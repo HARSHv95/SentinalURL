@@ -1,4 +1,4 @@
-import { LogOut, Settings, User } from "lucide-react";
+import { LogOut, Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import { Avatar, AvatarFallback } from "../../../components/ui/avatar";
@@ -57,11 +57,6 @@ export default function UserMenu() {
         <DropdownMenuLabel>
             My Account
         </DropdownMenuLabel>
-
-        <DropdownMenuItem>
-            <User className="mr-2 h-4 w-4" />
-            Profile
-        </DropdownMenuItem>
 
         <DropdownMenuItem>
             <Settings className="mr-2 h-4 w-4" />
