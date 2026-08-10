@@ -1,6 +1,7 @@
-.env
 # Environment
 .env
+.env.*
+!.env.example
 
 # IDE
 .idea
@@ -35,6 +36,36 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+# Spring Boot local overrides
+application-local.yml
+application-local.properties
+
 # Frontend (Node / Vite)
 node_modules/
 dist/
+coverage/
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+*~
+
+# Docker
+docker-data/
+
+# Databases
+*.db
+
+# Secrets / certificates
+*.pem
+*.key
+*.crt
+
+# Temporary / runtime
+tmp/
+temp/
+*.pid
