@@ -29,3 +29,27 @@ jwt:
 virustotal:
   api-key: 63b527b45a9ca168c704b1d3d4169b1e2f1af39a4a03aec3ca90a2ed6fd9e383
   base-url: https://www.virustotal.com/api/v3
+
+urlhaus:
+  auth-key: 64644607628b0deb6e1773ed0e3ed8c6fe39ac6d18a904ac
+  base-url: https://urlhaus-api.abuse.ch/v1
+
+openphish:
+  feed-url: https://raw.githubusercontent.com/openphish/public_feed/refs/heads/main/feed.txt
+
+phishtank:
+  app-key: ${PHISHTANK_APP_KEY:}
+  base-url: https://checkurl.phishtank.com/checkurl
+
+google-safe-browsing:
+  api-key: ${GOOGLE_SAFE_BROWSING_API_KEY:}
+  base-url: https://safebrowsing.googleapis.com
+
+abuseipdb:
+  api-key: ${ABUSEIPDB_API_KEY:}
+  base-url: https://api.abuseipdb.com
+
+openai:
+  api-key: ${OPENAI_API_KEY:}
+  base-url: https://api.openai.com
+  model: gpt-4o-mini
