@@ -1,3 +1,10 @@
+import type {
+  AIThreatAnalysis,
+  DomainIntelligence,
+  RiskFactor,
+  ThreatProviderResult,
+} from "./threatIntelligence";
+
 export interface CreateScanRequest {
     url: string;
 }
@@ -12,6 +19,9 @@ export interface CreateScanResponse {
 
     analysisReport: AnalysisReport | null;
     riskReport: RiskReport | null;
+    threatIntelligence: ThreatProviderResult[];
+    domainIntelligence: DomainIntelligence | null;
+    aiAnalysis: AIThreatAnalysis | null;
 }
 
 export type ScanStatus = "PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED";
@@ -46,6 +56,7 @@ export interface RiskReport {
   riskScore: number;
   verdict: RiskVerdict;
   confidence: number;
+  factors: RiskFactor[];
 }
 
 export interface ScanSummary {

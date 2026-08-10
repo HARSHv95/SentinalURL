@@ -2,27 +2,22 @@ import { useParams } from "react-router-dom";
 
 import PageHeader from "../../../shared/components/PageHeader";
 
-import { Card, CardContent } from "../../../components/ui/card";
-
-import ScanStatusBadge from "../components/ScanStatusBadge";
-
 import { useScan } from "../hooks/useScan";
-
-import { useEffect } from "react";
-import { useQueryClient } from "@tanstack/react-query";
-
-import type { ScanSummary } from "../types/scan";
 
 import ScanInfoCard from "../components/ScanInfoCard";
 import RiskSummaryCard from "../components/RiskSummaryCard";
 import DetectionChart from "../components/DetectionChart";
 import OverallVerdict from "../components/OverallVerdict";
 import PendingAnalysisCard from "../components/PendingAnalysisCard";
-import { CircleAlert } from "lucide-react";
+import AIThreatAnalysisCard from "../components/AIThreatAnalysisCard";
+import RiskBreakdownCard from "../components/RiskBreakdownCard";
+import ThreatProviderTable from "../components/ThreatProviderTable";
+import DomainIntelligenceCard from "../components/DomainIntelligenceCard";
+import DNSRecordsCard from "../components/DNSRecordsCard";
+import SSLInformationCard from "../components/SSLInformationCard";
 
 export default function ScanDetailsPage() {
   const { scanId } = useParams();
-  const queryClient = useQueryClient();
 
   const {
     data: scan,
@@ -94,6 +89,25 @@ export default function ScanDetailsPage() {
         <OverallVerdict
             riskReport={scan.riskReport}
         />
+
+        {scan.aiAnalysis && <AIThreatAnalysisCard analysis={scan.aiAnalysis} />}
+
+        {scan.riskReport && <RiskBreakdownCard factors={scan.riskReport.factors} />}
+
+        {scan.threatIntelligence.length > 0 && (
+          <ThreatProviderTable results={scan.threatIntelligence} />
+        )}
+
+        {scan.domainIntelligence && (
+          <>
+            <DomainIntelligenceCard data={scan.domainIntelligence} />
+
+            <div className="grid gap-6 lg:grid-cols-2">
+              <DNSRecordsCard records={scan.domainIntelligence.dnsRecords} />
+              <SSLInformationCard data={scan.domainIntelligence} />
+            </div>
+          </>
+        )}
     </>
 )}
   </div>

@@ -3,7 +3,6 @@ import {
   ScanSearch,
   History,
   FileText,
-  User,
 } from "lucide-react";
 
 import { ROUTES } from "./routes";
@@ -28,10 +27,5 @@ export const navigation = [
     title: "Reports",
     path: ROUTES.REPORTS,
     icon: FileText,
-  },
-  {
-    title: "Profile",
-    path: ROUTES.PROFILE,
-    icon: User,
   },
 ];

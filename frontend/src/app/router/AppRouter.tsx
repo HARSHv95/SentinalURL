@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import DashboardLayout from "../layouts/DashboardLayout";
 
@@ -39,6 +39,11 @@ export default function AppRouter() {
 
         <Route element={<ProtectedRoute />}>
 
+    <Route
+        path="/"
+        element={<Navigate to={ROUTES.DASHBOARD} replace />}
+    />
+
     <Route element={<DashboardLayout />}>
 
         <Route
@@ -63,6 +68,11 @@ export default function AppRouter() {
             element={<ScanDetailsPage />}
         />
     </Route>
+
+    <Route
+        path="*"
+        element={<Navigate to={ROUTES.DASHBOARD} replace />}
+    />
 
 </Route>
 
