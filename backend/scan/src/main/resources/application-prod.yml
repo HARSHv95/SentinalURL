@@ -54,3 +54,7 @@ openai:
   api-key: ${OPENAI_API_KEY:}
   base-url: https://api.openai.com
   model: ${OPENAI_MODEL:gpt-4o-mini}
+
+watchlist:
+  check-interval-hours: ${WATCHLIST_CHECK_INTERVAL_HOURS:6}
+  ssl-expiry-warning-days: ${WATCHLIST_SSL_EXPIRY_WARNING_DAYS:14}
