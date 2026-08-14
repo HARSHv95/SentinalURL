@@ -1,8 +1,11 @@
 import { useParams } from "react-router-dom";
+import { Check, Plus } from "lucide-react";
 
 import PageHeader from "../../../shared/components/PageHeader";
+import { Button } from "../../../components/ui/button";
 
 import { useScan } from "../hooks/useScan";
+import { useAddWatchlistItem } from "../../watchlist/hooks/useAddWatchlistItem";
 
 import ScanInfoCard from "../components/ScanInfoCard";
 import RiskSummaryCard from "../components/RiskSummaryCard";
@@ -24,6 +27,9 @@ export default function ScanDetailsPage() {
     isLoading,
     error,
   } = useScan(scanId!);
+
+  const addWatchlistItem = useAddWatchlistItem();
+  const onWatchlist = addWatchlistItem.isSuccess || addWatchlistItem.isError;
 
   if (isLoading) {
     return (
@@ -69,6 +75,16 @@ export default function ScanDetailsPage() {
     <PageHeader
       title="Scan Details"
       description="Detailed URL security report."
+      actions={
+        <Button
+          variant="outline"
+          disabled={addWatchlistItem.isPending || onWatchlist}
+          onClick={() => addWatchlistItem.mutate(scan.url)}
+        >
+          {onWatchlist ? <Check /> : <Plus />}
+          {onWatchlist ? "On Watchlist" : "Add to Watchlist"}
+        </Button>
+      }
     />
 
     <ScanInfoCard scan={scan} />
