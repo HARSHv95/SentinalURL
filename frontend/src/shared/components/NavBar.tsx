@@ -1,5 +1,6 @@
-import { Bell, Search, UserCircle2 } from "lucide-react";
+import { Search } from "lucide-react";
 import UserMenu from "../../features/auth/components/UserMenu";
+import AlertsBell from "../../features/watchlist/components/AlertsBell";
 
 const Navbar = () => {
   return (
@@ -20,10 +21,7 @@ const Navbar = () => {
           <Search size={20} />
         </button>
 
-        <button className="hover:text-primary transition relative">
-          <Bell size={20} />
-          <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-red-500"></span>
-        </button>
+        <AlertsBell />
 
         <button className="flex items-center gap-2">
 

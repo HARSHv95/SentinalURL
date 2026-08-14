@@ -1,0 +1,114 @@
+import { useEffect, useState } from "react";
+import { Search } from "lucide-react";
+
+import { Input } from "../../../components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../../components/ui/select";
+
+import { useDebouncedValue } from "../../../shared/hooks/useDebouncedValue";
+
+import { VERDICT_META } from "../../scan/lib/verdict";
+
+import type {
+  RiskVerdict,
+  WatchlistFilters,
+  WatchlistSortOption,
+} from "../types/watchlist";
+
+interface WatchlistToolbarProps {
+  filters: WatchlistFilters;
+  onFiltersChange: (next: WatchlistFilters) => void;
+}
+
+const VERDICT_OPTIONS: { value: RiskVerdict | "ALL"; label: string }[] = [
+  { value: "ALL", label: "All Verdicts" },
+  { value: "SAFE", label: VERDICT_META.SAFE.label },
+  { value: "LOW_RISK", label: VERDICT_META.LOW_RISK.label },
+  { value: "MEDIUM_RISK", label: VERDICT_META.MEDIUM_RISK.label },
+  { value: "HIGH_RISK", label: VERDICT_META.HIGH_RISK.label },
+  { value: "CRITICAL", label: VERDICT_META.CRITICAL.label },
+];
+
+const SORT_OPTIONS: { value: WatchlistSortOption; label: string }[] = [
+  { value: "newest", label: "Newest First" },
+  { value: "oldest", label: "Oldest First" },
+  { value: "risk_high", label: "Highest Risk" },
+  { value: "risk_low", label: "Lowest Risk" },
+];
+
+export default function WatchlistToolbar({
+  filters,
+  onFiltersChange,
+}: WatchlistToolbarProps) {
+  const [searchInput, setSearchInput] = useState(filters.search ?? "");
+  const debouncedSearch = useDebouncedValue(searchInput, 400);
+
+  useEffect(() => {
+    setSearchInput(filters.search ?? "");
+  }, [filters.search]);
+
+  useEffect(() => {
+    const trimmed = debouncedSearch.trim();
+    if (trimmed === (filters.search ?? "")) return;
+    onFiltersChange({ ...filters, search: trimmed || undefined });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedSearch]);
+
+  return (
+    <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+      <div className="relative flex-1">
+        <Search className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
+        <Input
+          placeholder="Search by URL..."
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+          className="pl-8"
+        />
+      </div>
+
+      <Select
+        value={filters.verdict ?? "ALL"}
+        onValueChange={(value) =>
+          onFiltersChange({
+            ...filters,
+            verdict: value === "ALL" ? undefined : (value as RiskVerdict),
+          })
+        }
+      >
+        <SelectTrigger className="sm:w-44">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {VERDICT_OPTIONS.map((option) => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+
+      <Select
+        value={filters.sort}
+        onValueChange={(value) =>
+          onFiltersChange({ ...filters, sort: value as WatchlistSortOption })
+        }
+      >
+        <SelectTrigger className="sm:w-44">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {SORT_OPTIONS.map((option) => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
+  );
+}
