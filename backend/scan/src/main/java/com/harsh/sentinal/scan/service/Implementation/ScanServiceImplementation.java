@@ -65,6 +65,19 @@ public class ScanServiceImplementation implements ScanService {
     }
 
     @Override
+    public void createScanFromBatch(String url, UUID userId, UUID emailScanBatchId) {
+        Scan newScan = new Scan();
+        newScan.setUserId(userId);
+        newScan.setUrl(url);
+        newScan.setStatus(ScanStatus.PENDING);
+        newScan.setEmailScanBatchId(emailScanBatchId);
+
+        scanRepo.save(newScan);
+
+        backService.processScan(newScan.getId(), newScan.getUrl());
+    }
+
+    @Override
     public Page<ScanReport> getAllScans(
             CustomUserDetails userDetails,
             int page,
@@ -72,7 +85,8 @@ public class ScanServiceImplementation implements ScanService {
             String search,
             ScanStatus status,
             Verdict verdict,
-            ScanSortOption sort) {
+            ScanSortOption sort,
+            UUID emailScanBatchId) {
 
         int safePage = Math.max(page, 0);
         int safeSize = Math.min(Math.max(size, MIN_PAGE_SIZE), MAX_PAGE_SIZE);
@@ -81,7 +95,8 @@ public class ScanServiceImplementation implements ScanService {
                 ScanSpecifications.belongsToUser(userDetails.getUserId()),
                 ScanSpecifications.urlContains(search),
                 ScanSpecifications.hasStatus(status),
-                ScanSpecifications.hasVerdict(verdict)
+                ScanSpecifications.hasVerdict(verdict),
+                ScanSpecifications.belongsToBatch(emailScanBatchId)
         );
 
         PageRequest pageRequest = PageRequest.of(safePage, safeSize, sort.toSort());

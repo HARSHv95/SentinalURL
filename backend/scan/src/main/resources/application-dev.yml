@@ -4,8 +4,8 @@ server:
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/scan
-    username: postgres
-    password: ak5hu2412
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -23,37 +23,51 @@ spring:
     locations: classpath:db/migration
 
 jwt:
-  secret: "hWmF9sQv6G7xL3nP8aR2kT9yZ4uB1cD5eF7gH9jK2mN5pQ8rS1tV4wX7yZ0aB3cD6"
-  expiration: 3600000
+  secret: ${JWT_SECRET}
+  expiration: ${JWT_EXPIRATION}
 
 virustotal:
-  api-key: 63b527b45a9ca168c704b1d3d4169b1e2f1af39a4a03aec3ca90a2ed6fd9e383
-  base-url: https://www.virustotal.com/api/v3
+  api-key: ${VIRUSTOTAL_API_KEY}
+  base-url: ${VIRUSTOTAL_API_URL}
 
 urlhaus:
-  auth-key: 64644607628b0deb6e1773ed0e3ed8c6fe39ac6d18a904ac
-  base-url: https://urlhaus-api.abuse.ch/v1
+  auth-key: ${URLHAUS_AUTH_KEY:}
+  base-url: ${URLHAUS_BASE_URL}
 
 openphish:
-  feed-url: https://raw.githubusercontent.com/openphish/public_feed/refs/heads/main/feed.txt
+  feed-url: ${OPENPHISH_FEED_URL}
 
 phishtank:
   app-key: ${PHISHTANK_APP_KEY:}
-  base-url: https://checkurl.phishtank.com/checkurl
+  base-url: ${PHISHTANK_BASE_URL}
 
 google-safe-browsing:
   api-key: ${GOOGLE_SAFE_BROWSING_API_KEY:}
-  base-url: https://safebrowsing.googleapis.com
+  base-url: ${GOOGLE_SAFE_BROWSING_BASE_URL}
 
 abuseipdb:
   api-key: ${ABUSEIPDB_API_KEY:}
-  base-url: https://api.abuseipdb.com
+  base-url: ${ABUSEIPDB_BASE_URL}
 
 openai:
   api-key: ${OPENAI_API_KEY:}
-  base-url: https://api.openai.com
-  model: gpt-4o-mini
+  base-url: ${OPENAI_API_URL}
+  model: ${OPENAI_MODEL:gpt-4o-mini}
 
 watchlist:
   check-interval-hours: 1
   ssl-expiry-warning-days: 14
+
+gmail:
+  client-id: ${GMAIL_CLIENT_ID:}
+  client-secret: ${GMAIL_CLIENT_SECRET:}
+  redirect-uri: ${GMAIL_REDIRECT_URI:http://localhost:8082/api/v1/gmail/callback}
+  auth-uri: ${GMAIL_AUTH_URI}
+  token-uri: ${GMAIL_TOKEN_URI}
+  api-base-url: ${GMAIL_API_BASE_URL}
+  scope: ${GMAIL_SCOPE}
+  frontend-success-url: ${GMAIL_FRONTEND_SUCCESS_URL:http://localhost:5173/settings/integrations}
+  sync-interval-minutes: ${GMAIL_SYNC_INTERVAL_MINUTES:5}
+  sync-lookback-hours: ${GMAIL_SYNC_LOOKBACK_HOURS:24}
+  token-encryption-key: ${GMAIL_TOKEN_ENCRYPTION_KEY:dev-only-insecure-key-change-me}
+  token-encryption-salt: ${GMAIL_TOKEN_ENCRYPTION_SALT:deadbeefcafebabe}

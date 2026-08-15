@@ -34,6 +34,7 @@ public class PhishTankClient {
 
         PhishTankResponse response = restClient.post()
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .accept(MediaType.APPLICATION_JSON)
                 .body(body.toString())
                 .retrieve()
                 .body(PhishTankResponse.class);

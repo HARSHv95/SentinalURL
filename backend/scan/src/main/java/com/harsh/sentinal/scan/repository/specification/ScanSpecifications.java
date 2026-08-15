@@ -51,4 +51,11 @@ public final class ScanSpecifications {
         }
         return (root, query, cb) -> root.get("status").in(statuses);
     }
+
+    public static Specification<Scan> belongsToBatch(UUID emailScanBatchId) {
+        if (emailScanBatchId == null) {
+            return null;
+        }
+        return (root, query, cb) -> cb.equal(root.get("emailScanBatchId"), emailScanBatchId);
+    }
 }

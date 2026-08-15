@@ -16,6 +16,8 @@ import java.util.UUID;
 public interface ScanService {
     public ScanResponse createScan(ScanRequest scanRequest, CustomUserDetails customUserDetails);
 
+    public void createScanFromBatch(String url, UUID userId, UUID emailScanBatchId);
+
     public Page<ScanReport> getAllScans(
             CustomUserDetails userDetails,
             int page,
@@ -23,7 +25,8 @@ public interface ScanService {
             String search,
             ScanStatus status,
             Verdict verdict,
-            ScanSortOption sort);
+            ScanSortOption sort,
+            UUID emailScanBatchId);
 
     public ScanResponse getScanById(UUID scanId);
 
