@@ -4,6 +4,7 @@ export const ROUTES = {
   HISTORY: "/history",
   REPORTS: "/report",
   WATCHLIST: "/watchlist",
+  SETTINGS_INTEGRATIONS: "/settings/integrations",
   LOGIN: "/login",
   REGISTER: "/register",
   SCAN_DETAIL: "/scan/:scanId",

@@ -15,6 +15,7 @@ import PublicRoute from "../../shared/components/PublicRoute";
 import ScanDetailsPage from "../../features/scan/pages/ScanDetailPage";
 import ScanHistoryPage from "../../features/scan/pages/ScanHistoryPage";
 import WatchlistPage from "../../features/watchlist/pages/WatchlistPage";
+import IntegrationsPage from "../../features/gmail/pages/IntegrationsPage";
 
 export default function AppRouter() {
   return (
@@ -71,6 +72,10 @@ export default function AppRouter() {
         <Route
             path={ROUTES.WATCHLIST}
             element={<WatchlistPage />}
+        />
+        <Route
+            path={ROUTES.SETTINGS_INTEGRATIONS}
+            element={<IntegrationsPage />}
         />
     </Route>
 

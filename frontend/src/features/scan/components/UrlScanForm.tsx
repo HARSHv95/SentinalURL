@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -12,20 +13,29 @@ import {
 interface Props {
     onSubmit: (data: ScanFormData) => void;
     isLoading: boolean;
+    defaultUrl?: string;
 }
 
 export default function UrlScanForm({
     onSubmit,
     isLoading,
+    defaultUrl,
 }: Props) {
 
     const {
         register,
         handleSubmit,
+        setValue,
         formState: { errors },
     } = useForm<ScanFormData>({
         resolver: zodResolver(scanSchema),
     });
+
+    useEffect(() => {
+        if (defaultUrl) {
+            setValue("url", defaultUrl, { shouldValidate: true });
+        }
+    }, [defaultUrl, setValue]);
 
     return (
         <form
