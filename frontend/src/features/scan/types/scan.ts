@@ -42,6 +42,7 @@ export interface ScanFilters {
   status?: ScanStatus;
   verdict?: RiskVerdict;
   sort: ScanSortOption;
+  emailScanBatchId?: string;
 }
 
 export interface AnalysisReport {
