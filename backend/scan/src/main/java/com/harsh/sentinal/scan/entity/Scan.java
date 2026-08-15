@@ -50,4 +50,7 @@ public class Scan {
     @CreationTimestamp
     private Instant updatedAt;
 
+    @Column(name = "email_scan_batch_id")
+    private UUID emailScanBatchId;
+
 }

@@ -50,8 +50,9 @@ public class ScanController {
             @RequestParam(required = false) String search,
             @RequestParam(required = false) ScanStatus status,
             @RequestParam(required = false) Verdict verdict,
-            @RequestParam(defaultValue = "newest") ScanSortOption sort){
-        return scanService.getAllScans(userDetails, page, size, search, status, verdict, sort);
+            @RequestParam(defaultValue = "newest") ScanSortOption sort,
+            @RequestParam(required = false) UUID emailScanBatchId){
+        return scanService.getAllScans(userDetails, page, size, search, status, verdict, sort, emailScanBatchId);
     }
 
     @GetMapping("/id")

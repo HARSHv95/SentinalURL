@@ -16,7 +16,9 @@ import com.harsh.sentinal.scan.service.threat.ThreatAggregationService;
 import com.harsh.sentinal.scan.service.watchlist.WatchlistMonitorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -47,12 +49,16 @@ public class WatchlistMonitorServiceImplementation implements WatchlistMonitorSe
     @Value("${watchlist.ssl-expiry-warning-days}")
     private int sslExpiryWarningDays;
 
+    @Lazy
+    @Autowired
+    private WatchlistMonitorService self;
+
     @Override
     @Scheduled(fixedRateString = "${watchlist.check-interval-hours}", timeUnit = TimeUnit.HOURS)
     public void sweep() {
         List<WatchlistItem> activeItems = watchlistItemRepo.findByActiveTrue();
         log.info("Watchlist sweep starting for {} active item(s)", activeItems.size());
-        activeItems.forEach(item -> checkItem(item.getId()));
+        activeItems.forEach(item -> self.checkItem(item.getId()));
     }
 
     @Override
