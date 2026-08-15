@@ -22,6 +22,7 @@ export function parseScanFilters(params: URLSearchParams): ScanFilters {
   const status = params.get("status");
   const verdict = params.get("verdict");
   const search = params.get("search");
+  const emailScanBatchId = params.get("emailScanBatchId");
 
   return {
     page: Number.isFinite(page) && page >= 0 ? page : 0,
@@ -36,5 +37,6 @@ export function parseScanFilters(params: URLSearchParams): ScanFilters {
     sort: SORT_OPTIONS.includes(sort as ScanSortOption)
       ? (sort as ScanSortOption)
       : "newest",
+    emailScanBatchId: emailScanBatchId ?? undefined,
   };
 }

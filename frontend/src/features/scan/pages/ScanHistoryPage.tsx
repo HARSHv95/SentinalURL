@@ -32,6 +32,7 @@ export default function ScanHistoryPage() {
     if (next.search) params.search = next.search;
     if (next.status) params.status = next.status;
     if (next.verdict) params.verdict = next.verdict;
+    if (next.emailScanBatchId) params.emailScanBatchId = next.emailScanBatchId;
     setSearchParams(params);
   };
 
