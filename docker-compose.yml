@@ -1,0 +1,81 @@
+version: "3.9"
+
+services:
+
+  postgres:
+    image: postgres:17
+    container_name: sentinel-postgres
+    restart: unless-stopped
+
+    env_file:
+      - .env
+
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+    networks:
+      - sentinel-network
+
+
+  auth-service:
+    build:
+      context: ./backend/auth
+
+    container_name: sentinel-auth
+
+    depends_on:
+      - postgres
+
+    env_file:
+      - .env
+
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+
+    ports:
+      - "8080:8080"
+
+    restart: unless-stopped
+
+    networks:
+      - sentinel-network
+
+
+  scan-service:
+    build:
+      context: ./backend/scan
+
+    container_name: sentinel-scan
+
+    depends_on:
+      - postgres
+
+    env_file:
+      - .env
+
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+
+    ports:
+      - "8081:8081"
+
+    restart: unless-stopped
+
+    networks:
+      - sentinel-network
+
+
+volumes:
+  postgres-data:
+
+
+networks:
+  sentinel-network:

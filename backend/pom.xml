@@ -19,7 +19,7 @@
   <modules>
     <module>lib-resource</module>
     <module>auth</module>
-    <module>gateway</module>
+    <module>scan</module>
   </modules>
 
   <properties>
