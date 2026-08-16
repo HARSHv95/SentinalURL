@@ -16,12 +16,19 @@ import ScanDetailsPage from "../../features/scan/pages/ScanDetailPage";
 import ScanHistoryPage from "../../features/scan/pages/ScanHistoryPage";
 import WatchlistPage from "../../features/watchlist/pages/WatchlistPage";
 import IntegrationsPage from "../../features/gmail/pages/IntegrationsPage";
+import SharedReportPage from "../../features/scan/pages/SharedReportPage";
 
 export default function AppRouter() {
   return (
     <BrowserRouter>
 
       <Routes>
+        {/* Unguarded — no auth required, no redirect for logged-in users either */}
+        <Route
+            path={ROUTES.SHARED_REPORT}
+            element={<SharedReportPage />}
+        />
+
         {/* Public routes */}
      <Route element={<PublicRoute />}>
             <Route element={<AuthLayout />}>

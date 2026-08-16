@@ -22,6 +22,9 @@ export interface CreateScanResponse {
     threatIntelligence: ThreatProviderResult[];
     domainIntelligence: DomainIntelligence | null;
     aiAnalysis: AIThreatAnalysis | null;
+
+    shared: boolean;
+    shareToken: string | null;
 }
 
 export type ScanStatus = "PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED";

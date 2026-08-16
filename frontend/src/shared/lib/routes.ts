@@ -8,4 +8,5 @@ export const ROUTES = {
   LOGIN: "/login",
   REGISTER: "/register",
   SCAN_DETAIL: "/scan/:scanId",
+  SHARED_REPORT: "/shared/:shareToken",
 } as const;

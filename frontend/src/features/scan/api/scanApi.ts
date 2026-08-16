@@ -42,3 +42,29 @@ export async function getScan(
 
   return response.data;
 }
+
+export async function shareScan(
+  scanId: string
+): Promise<{ shareToken: string }> {
+
+  const response = await scanClient.post<{ shareToken: string }>(
+    `/api/v1/scan/share?scanId=${scanId}`
+  );
+
+  return response.data;
+}
+
+export async function unshareScan(scanId: string): Promise<void> {
+  await scanClient.post(`/api/v1/scan/unshare?scanId=${scanId}`);
+}
+
+export async function getSharedScan(
+  shareToken: string
+): Promise<CreateScanResponse> {
+
+  const response = await scanClient.get<CreateScanResponse>(
+    `/api/v1/scan/shared/${shareToken}`
+  );
+
+  return response.data;
+}
