@@ -2,9 +2,11 @@ package com.harsh.sentinal.scan.service.Implementation;
 
 import com.harsh.sentinal.scan.common.enums.ScanSortOption;
 import com.harsh.sentinal.scan.common.enums.ScanStatus;
+import com.harsh.sentinal.scan.common.enums.ShareVisibility;
 import com.harsh.sentinal.scan.common.enums.Verdict;
 import com.harsh.sentinal.scan.dto.*;
 import com.harsh.sentinal.scan.entity.Scan;
+import com.harsh.sentinal.scan.exception.ResourceNotFoundException;
 import com.harsh.sentinal.scan.repository.AIAnalysisRepo;
 import com.harsh.sentinal.scan.repository.AnalysisRepo;
 import com.harsh.sentinal.scan.repository.DomainIntelligenceRepo;
@@ -105,19 +107,21 @@ public class ScanServiceImplementation implements ScanService {
     }
 
     @Override
-    public ScanResponse getScanById(UUID scanId) {
-        ScanReport scan = scanRepo.getScanById(scanId);
+    public ScanResponse getScanById(UUID scanId, UUID requestingUserId) {
+        Scan scan = findOwnedScan(scanId, requestingUserId);
 
         ScanResponse response = new ScanResponse();
-        response.setScanId(scan.getScanId());
+        response.setScanId(scan.getId());
         response.setUrl(scan.getUrl());
-        response.setStatus(scan.getScanStatus().name());
+        response.setStatus(scan.getStatus().name());
         response.setCreatedAt(LocalDateTime.ofInstant(
                 scan.getCreatedAt(),
                 ZoneId.of("Asia/Kolkata")
         ));
+        response.setShared(scan.getShareVisibility() == ShareVisibility.PUBLIC);
+        response.setShareToken(scan.getShareToken());
 
-        if (scan.getScanStatus() == ScanStatus.COMPLETED) {
+        if (scan.getStatus() == ScanStatus.COMPLETED) {
             AnalysisReport report = analysisRepo.getAnalysisReportByScanId(scanId);
             response.setAnalysisReport(report);
 
@@ -151,13 +155,57 @@ public class ScanServiceImplementation implements ScanService {
     }
 
     @Override
-    public ResponseEntity<String> deleteScan(UUID scanId) {
+    public ResponseEntity<String> deleteScan(UUID scanId, UUID requestingUserId) {
+        findOwnedScan(scanId, requestingUserId);
         scanRepo.deleteById(scanId);
         return new ResponseEntity<>("Scan Deleted Successfully!!! ", HttpStatus.OK);
     }
 
     @Override
+    public ShareLinkResponse shareScan(UUID scanId, UUID requestingUserId) {
+        Scan scan = findOwnedScan(scanId, requestingUserId);
+
+        if (scan.getShareToken() == null) {
+            scan.setShareToken(UUID.randomUUID().toString());
+        }
+        scan.setShareVisibility(ShareVisibility.PUBLIC);
+        scanRepo.save(scan);
+
+        return new ShareLinkResponse(scan.getShareToken());
+    }
+
+    @Override
+    public void unshareScan(UUID scanId, UUID requestingUserId) {
+        Scan scan = findOwnedScan(scanId, requestingUserId);
+
+        // Clear the token (not just flip visibility) so a re-share always mints
+        // a fresh link — a previously leaked link can never work again.
+        scan.setShareVisibility(ShareVisibility.PRIVATE);
+        scan.setShareToken(null);
+        scanRepo.save(scan);
+    }
+
+    @Override
+    public ScanResponse getSharedScan(String shareToken) {
+        Scan scan = scanRepo.findByShareTokenAndShareVisibility(shareToken, ShareVisibility.PUBLIC)
+                .orElseThrow(() -> new ResourceNotFoundException("Report not found."));
+
+        return getScanById(scan.getId(), scan.getUserId());
+    }
+
+    @Override
     public String me() {
         return "Scan Successfull";
+    }
+
+    private Scan findOwnedScan(UUID scanId, UUID requestingUserId) {
+        Scan scan = scanRepo.findById(scanId)
+                .orElseThrow(() -> new ResourceNotFoundException("Scan not found."));
+
+        if (!scan.getUserId().equals(requestingUserId)) {
+            throw new ResourceNotFoundException("Scan not found.");
+        }
+
+        return scan;
     }
 }

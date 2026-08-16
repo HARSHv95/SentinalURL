@@ -6,6 +6,7 @@ import com.harsh.sentinal.scan.common.enums.Verdict;
 import com.harsh.sentinal.scan.dto.ScanReport;
 import com.harsh.sentinal.scan.dto.ScanRequest;
 import com.harsh.sentinal.scan.dto.ScanResponse;
+import com.harsh.sentinal.scan.dto.ShareLinkResponse;
 import com.harsh.sentinal.scan.security.principal.CustomUserDetails;
 
 import org.springframework.data.domain.Page;
@@ -28,9 +29,15 @@ public interface ScanService {
             ScanSortOption sort,
             UUID emailScanBatchId);
 
-    public ScanResponse getScanById(UUID scanId);
+    public ScanResponse getScanById(UUID scanId, UUID requestingUserId);
 
-    public ResponseEntity<String> deleteScan(UUID scanId);
+    public ResponseEntity<String> deleteScan(UUID scanId, UUID requestingUserId);
+
+    public ShareLinkResponse shareScan(UUID scanId, UUID requestingUserId);
+
+    public void unshareScan(UUID scanId, UUID requestingUserId);
+
+    public ScanResponse getSharedScan(String shareToken);
 
     public String me();
 }

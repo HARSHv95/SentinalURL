@@ -7,6 +7,7 @@ import com.harsh.sentinal.scan.dto.AnalysisResponse;
 import com.harsh.sentinal.scan.dto.ScanReport;
 import com.harsh.sentinal.scan.dto.ScanRequest;
 import com.harsh.sentinal.scan.dto.ScanResponse;
+import com.harsh.sentinal.scan.dto.ShareLinkResponse;
 import com.harsh.sentinal.scan.integration.virustotal.VirusTotalClient;
 import com.harsh.sentinal.scan.security.principal.CustomUserDetails;
 import com.harsh.sentinal.scan.service.ScanService;
@@ -60,7 +61,7 @@ public class ScanController {
             @Valid @RequestParam UUID scanId,
             @AuthenticationPrincipal CustomUserDetails userDetails
             ){
-        return scanService.getScanById(scanId);
+        return scanService.getScanById(scanId, userDetails.getUserId());
     }
 
     @GetMapping("/delete")
@@ -68,7 +69,29 @@ public class ScanController {
             @Valid @RequestParam UUID scanId,
             @AuthenticationPrincipal CustomUserDetails userDetails
     ){
-        return scanService.deleteScan(scanId);
+        return scanService.deleteScan(scanId, userDetails.getUserId());
+    }
+
+    @PostMapping("/share")
+    public ShareLinkResponse shareScan(
+            @Valid @RequestParam UUID scanId,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ){
+        return scanService.shareScan(scanId, userDetails.getUserId());
+    }
+
+    @PostMapping("/unshare")
+    public ResponseEntity<String> unshareScan(
+            @Valid @RequestParam UUID scanId,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ){
+        scanService.unshareScan(scanId, userDetails.getUserId());
+        return ResponseEntity.ok("Sharing disabled.");
+    }
+
+    @GetMapping("/shared/{shareToken}")
+    public ScanResponse getSharedScan(@PathVariable String shareToken){
+        return scanService.getSharedScan(shareToken);
     }
 
     @GetMapping("/test")

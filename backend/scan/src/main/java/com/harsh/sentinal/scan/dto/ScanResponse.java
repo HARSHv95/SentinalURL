@@ -21,4 +21,6 @@ public class ScanResponse {
     private List<ProviderResultResponse> threatIntelligence;
     private DomainIntelligenceResponse domainIntelligence;
     private AIAnalysisResponse aiAnalysis;
+    private boolean shared;
+    private String shareToken;
 }

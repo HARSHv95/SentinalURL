@@ -1,6 +1,7 @@
 package com.harsh.sentinal.scan.entity;
 
 import com.harsh.sentinal.scan.common.enums.ScanStatus;
+import com.harsh.sentinal.scan.common.enums.ShareVisibility;
 import com.harsh.sentinal.scan.common.enums.Verdict;
 import com.harsh.sentinal.scan.dto.AnalysisResponse;
 import jakarta.persistence.*;
@@ -52,5 +53,12 @@ public class Scan {
 
     @Column(name = "email_scan_batch_id")
     private UUID emailScanBatchId;
+
+    @Column(name = "share_token", unique = true)
+    private String shareToken;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "share_visibility", nullable = false, length = 20)
+    private ShareVisibility shareVisibility = ShareVisibility.PRIVATE;
 
 }
