@@ -20,5 +20,10 @@ export const login = async (
 export const register = async (
   data: RegisterRequest
 ): Promise<void> => {
-  await authClient.post("/api/v1/auth/register", data);
+  await authClient.post("/api/v1/auth/register", {
+    firstName: data.firstName,
+    lastName: data.lastName,
+    emailId: data.email,
+    password: data.password,
+  });
 };

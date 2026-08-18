@@ -45,7 +45,7 @@ export default function AddToWatchlistForm({
                 />
 
                 {errors.url && (
-                    <p className="mt-1 text-sm text-red-500">
+                    <p className="mt-1 text-sm text-destructive">
                         {errors.url.message}
                     </p>
                 )}

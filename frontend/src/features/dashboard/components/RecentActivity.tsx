@@ -1,28 +1,28 @@
-import { Clock3 } from "lucide-react";
-
 import DashboardCard from "./DashboardCard";
 
+import ScanGrid from "../../scan/components/ScanGrid";
+import ScanListSkeleton from "../../scan/components/ScanListSkeleton";
+
+import { useScans } from "../../scan/hooks/useScans";
+
+import type { ScanFilters } from "../../scan/types/scan";
+
+const RECENT_ACTIVITY_FILTERS: ScanFilters = {
+  page: 0,
+  size: 5,
+  sort: "newest",
+};
+
 const RecentActivity = () => {
+  const { data, isLoading } = useScans(RECENT_ACTIVITY_FILTERS);
+
   return (
     <DashboardCard title="Recent Activity">
-
-      <div className="flex flex-col items-center justify-center py-10 text-center">
-
-        <Clock3
-          className="mb-4 text-muted-foreground"
-          size={40}
-        />
-
-        <p className="font-medium">
-          No scans yet
-        </p>
-
-        <p className="mt-2 text-sm text-muted-foreground">
-          Scan your first URL to see your activity here.
-        </p>
-
-      </div>
-
+      {isLoading ? (
+        <ScanListSkeleton count={3} />
+      ) : (
+        <ScanGrid scans={data?.content ?? []} />
+      )}
     </DashboardCard>
   );
 };

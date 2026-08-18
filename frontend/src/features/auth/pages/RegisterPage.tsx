@@ -5,7 +5,7 @@ const RegisterPage = () => {
   return (
     <AuthCard
       title="Create Account"
-      description="Create your SentinelURL account."
+      description="Create your SentinalURL account."
     >
       <RegisterForm />
     </AuthCard>

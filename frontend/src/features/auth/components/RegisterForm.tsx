@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
@@ -12,6 +14,8 @@ import {
   registerSchema,
   type RegisterFormData,
 } from "../schemas/registerSchema";
+import { useRegister } from "../hooks/useRegister";
+
 const RegisterForm = () => {
   const {
     register,
@@ -21,24 +25,48 @@ const RegisterForm = () => {
     resolver: zodResolver(registerSchema),
   });
 
+  const registerMutation = useRegister();
+  const navigate = useNavigate();
+
   const onSubmit = async (data: RegisterFormData) => {
-    console.log(data);
+    try {
+      await registerMutation.mutateAsync(data);
+      navigate(`${ROUTES.LOGIN}?registered=true`);
+    } catch {
+      // surfaced below via registerMutation.isError
+    }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <div className="space-y-2">
-        <Label htmlFor="name">Full Name</Label>
-        <Input
-          id="name"
-          placeholder="John Doe"
-          {...register("name")}
-        />
-        {errors.name && (
-          <p className="text-sm text-red-500">
-            {errors.name.message}
-          </p>
-        )}
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="firstName">First Name</Label>
+          <Input
+            id="firstName"
+            placeholder="John"
+            {...register("firstName")}
+          />
+          {errors.firstName && (
+            <p className="text-sm text-destructive">
+              {errors.firstName.message}
+            </p>
+          )}
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="lastName">Last Name</Label>
+          <Input
+            id="lastName"
+            placeholder="Doe"
+            {...register("lastName")}
+          />
+          {errors.lastName && (
+            <p className="text-sm text-destructive">
+              {errors.lastName.message}
+            </p>
+          )}
+        </div>
       </div>
 
       <div className="space-y-2">
@@ -50,7 +78,7 @@ const RegisterForm = () => {
     {...register("email")}
 />
 {errors.email && (
-    <p className="text-sm text-red-500">
+    <p className="text-sm text-destructive">
         {errors.email.message}
     </p>
 )}
@@ -65,7 +93,7 @@ const RegisterForm = () => {
 />
 
 {errors.password && (
-    <p className="text-sm text-red-500">
+    <p className="text-sm text-destructive">
         {errors.password.message}
     </p>
 )}
@@ -83,18 +111,24 @@ const RegisterForm = () => {
 />
 
 {errors.confirmPassword && (
-    <p className="text-sm text-red-500">
+    <p className="text-sm text-destructive">
         {errors.confirmPassword.message}
     </p>
 )}
       </div>
 
+      {registerMutation.isError && (
+        <p className="text-sm text-destructive">
+          Couldn't create your account. Please check your details and try again.
+        </p>
+      )}
+
       <Button
     type="submit"
     className="w-full"
-    disabled={isSubmitting}
+    disabled={isSubmitting || registerMutation.isPending}
 >
-    {isSubmitting ? "Creating Account..." : "Create Account"}
+    {isSubmitting || registerMutation.isPending ? "Creating Account..." : "Create Account"}
 </Button>
 
       <AuthFooter

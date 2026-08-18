@@ -17,7 +17,7 @@ export default function PendingAnalysisCard() {
 
         <CardTitle className="flex items-center gap-2">
 
-          <ShieldQuestion className="h-5 w-5 text-blue-600" />
+          <ShieldQuestion className="size-5 text-primary" />
 
           Analyzing URL
 
@@ -29,7 +29,7 @@ export default function PendingAnalysisCard() {
 
         <div className="flex items-center gap-2 text-muted-foreground">
 
-          <Loader2 className="h-4 w-4 animate-spin" />
+          <Loader2 className="size-4 animate-spin" />
 
           <span>Contacting VirusTotal...</span>
 

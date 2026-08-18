@@ -59,7 +59,7 @@ export default function UserMenu() {
         </DropdownMenuLabel>
 
         <DropdownMenuItem onClick={() => navigate(ROUTES.SETTINGS_INTEGRATIONS)}>
-            <Settings className="mr-2 h-4 w-4" />
+            <Settings className="mr-2 size-4" />
             Settings
         </DropdownMenuItem>
 
@@ -71,7 +71,7 @@ export default function UserMenu() {
         variant="destructive"
         onClick={handleLogout}
     >
-        <LogOut className="mr-2 h-4 w-4" />
+        <LogOut className="mr-2 size-4" />
         Logout
     </DropdownMenuItem>
 

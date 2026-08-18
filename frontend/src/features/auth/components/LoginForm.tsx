@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
@@ -16,8 +16,8 @@ import {
   loginSchema,
   type LoginFormData,
 } from "../schemas/loginSchema";
-import { login } from "../api/authApi";
 import useAuth from "../hooks/useAuth";
+import { useLogin } from "../hooks/useLogin";
 
 const LoginForm = () => {
   const {
@@ -30,11 +30,13 @@ const LoginForm = () => {
 
 const auth = useAuth();
 const navigate = useNavigate();
+const loginMutation = useLogin();
+
 const onSubmit = async (data: LoginFormData) => {
 
     try {
 
-        const response = await login(data);
+        const response = await loginMutation.mutateAsync(data);
 
         auth.login(response);
 
@@ -65,7 +67,7 @@ const onSubmit = async (data: LoginFormData) => {
 />
 
 {errors.email && (
-    <p className="text-sm text-red-500">
+    <p className="text-sm text-destructive">
         {errors.email.message}
     </p>
 )}
@@ -81,27 +83,22 @@ const onSubmit = async (data: LoginFormData) => {
 />
 
 {errors.password && (
-    <p className="text-sm text-red-500">
+    <p className="text-sm text-destructive">
         {errors.password.message}
     </p>
 )}
       </div>
 
-      <div className="flex items-center justify-between text-sm">
+      <label className="flex items-center gap-2 text-sm">
+        <input type="checkbox" />
+        Remember me
+      </label>
 
-        <label className="flex items-center gap-2">
-          <input type="checkbox" />
-          Remember me
-        </label>
-
-        <Link
-          to="#"
-          className="text-primary hover:underline"
-        >
-          Forgot Password?
-        </Link>
-
-      </div>
+      {loginMutation.isError && (
+        <p className="text-sm text-destructive">
+          Incorrect email or password. Please try again.
+        </p>
+      )}
 
       <Button
     type="submit"

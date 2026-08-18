@@ -1,5 +1,5 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Plus } from "lucide-react";
+import { History as HistoryIcon, Plus } from "lucide-react";
 
 import PageHeader from "../../../shared/components/PageHeader";
 import PaginationBar from "../../../shared/components/PaginationBar";
@@ -45,6 +45,7 @@ export default function ScanHistoryPage() {
       <PageHeader
         title="Scan History"
         description="Browse, search, and filter all your past scans."
+        icon={HistoryIcon}
         actions={
           <Button onClick={() => navigate(ROUTES.SCAN)}>
             <Plus />

@@ -4,17 +4,8 @@ import AlertsBell from "../../features/watchlist/components/AlertsBell";
 
 const Navbar = () => {
   return (
-    <header className="h-16 border-b bg-background px-6 flex items-center justify-between">
+    <header className="h-16 border-b bg-background px-6 flex items-center justify-end">
 
-      {/* Left Section */}
-      <div>
-        <h1 className="text-2xl font-bold">Dashboard</h1>
-        <p className="text-sm text-muted-foreground">
-          Welcome back!
-        </p>
-      </div>
-
-      {/* Right Section */}
       <div className="flex items-center gap-5">
 
         <button className="hover:text-primary transition">
@@ -23,11 +14,7 @@ const Navbar = () => {
 
         <AlertsBell />
 
-        <button className="flex items-center gap-2">
-
-          <UserMenu />
-
-        </button>
+        <UserMenu />
 
       </div>
 
