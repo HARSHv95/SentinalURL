@@ -1,4 +1,4 @@
-package com.harsh.sentinal.scan.service.Implementation;
+package com.harsh.sentinal.scan.service.report;
 
 import com.harsh.sentinal.scan.common.enums.ScanStatus;
 import com.harsh.sentinal.scan.common.enums.Verdict;
@@ -8,7 +8,6 @@ import com.harsh.sentinal.scan.repository.ScanRepo;
 import com.harsh.sentinal.scan.repository.ScanStatsRepo;
 import com.harsh.sentinal.scan.repository.specification.ScanSpecifications;
 import com.harsh.sentinal.scan.security.principal.CustomUserDetails;
-import com.harsh.sentinal.scan.service.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;

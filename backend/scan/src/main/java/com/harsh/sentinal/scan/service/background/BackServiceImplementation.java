@@ -1,4 +1,4 @@
-package com.harsh.sentinal.scan.service.background.Implementation;
+package com.harsh.sentinal.scan.service.background;
 
 import com.harsh.sentinal.scan.common.enums.ScanStatus;
 import com.harsh.sentinal.scan.dto.RiskReport;
@@ -12,13 +12,12 @@ import com.harsh.sentinal.scan.repository.AnalysisRepo;
 import com.harsh.sentinal.scan.repository.ProviderResultRepo;
 import com.harsh.sentinal.scan.repository.ScanRepo;
 import com.harsh.sentinal.scan.service.ai.AIAnalysisProvider;
-import com.harsh.sentinal.scan.service.ai.AIAnalysisResult;
-import com.harsh.sentinal.scan.service.ai.ThreatIntelligenceEvidence;
-import com.harsh.sentinal.scan.service.background.BackService;
+import com.harsh.sentinal.scan.dto.AIAnalysisResult;
+import com.harsh.sentinal.scan.dto.ThreatIntelligenceEvidence;
 import com.harsh.sentinal.scan.service.domain.DomainIntelligenceService;
-import com.harsh.sentinal.scan.service.threat.ThreatAggregationResult;
+import com.harsh.sentinal.scan.dto.ThreatAggregationResult;
 import com.harsh.sentinal.scan.service.threat.ThreatAggregationService;
-import com.harsh.sentinal.scan.service.threat.ThreatProviderResult;
+import com.harsh.sentinal.scan.dto.ThreatProviderResult;
 import com.harsh.sentinal.scan.util.RiskScoreCalculator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

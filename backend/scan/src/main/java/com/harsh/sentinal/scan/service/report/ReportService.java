@@ -1,4 +1,4 @@
-package com.harsh.sentinal.scan.service;
+package com.harsh.sentinal.scan.service.report;
 
 import com.harsh.sentinal.scan.dto.ScanStatsResponse;
 import com.harsh.sentinal.scan.security.principal.CustomUserDetails;

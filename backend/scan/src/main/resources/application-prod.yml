@@ -72,3 +72,10 @@ gmail:
 watchlist:
   check-interval-hours: ${WATCHLIST_CHECK_INTERVAL_HOURS:6}
   ssl-expiry-warning-days: ${WATCHLIST_SSL_EXPIRY_WARNING_DAYS:14}
+
+discord:
+  application-id: ${DISCORD_APPLICATION_ID:}
+  public-key: ${DISCORD_PUBLIC_KEY:}
+  bot-token: ${DISCORD_BOT_TOKEN:}
+  api-base-url: https://discord.com/api/v10
+  test-guild-id: ${DISCORD_TEST_GUILD_ID:}

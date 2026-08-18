@@ -5,7 +5,7 @@ import com.harsh.sentinal.scan.integration.abuseipdb.AbuseIPDBClient;
 import com.harsh.sentinal.scan.integration.abuseipdb.AbuseIPDBProperties;
 import com.harsh.sentinal.scan.integration.abuseipdb.AbuseIPDBResponse;
 import com.harsh.sentinal.scan.service.threat.ThreatProvider;
-import com.harsh.sentinal.scan.service.threat.ThreatProviderResult;
+import com.harsh.sentinal.scan.dto.ThreatProviderResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

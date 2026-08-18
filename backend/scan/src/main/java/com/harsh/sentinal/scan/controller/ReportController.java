@@ -2,7 +2,7 @@ package com.harsh.sentinal.scan.controller;
 
 import com.harsh.sentinal.scan.dto.ScanStatsResponse;
 import com.harsh.sentinal.scan.security.principal.CustomUserDetails;
-import com.harsh.sentinal.scan.service.ReportService;
+import com.harsh.sentinal.scan.service.report.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;

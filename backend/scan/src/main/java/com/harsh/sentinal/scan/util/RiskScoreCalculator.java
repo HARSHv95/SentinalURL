@@ -5,7 +5,7 @@ import com.harsh.sentinal.scan.dto.AnalysisReport;
 import com.harsh.sentinal.scan.dto.RiskFactor;
 import com.harsh.sentinal.scan.dto.RiskReport;
 import com.harsh.sentinal.scan.common.enums.ProviderStatus;
-import com.harsh.sentinal.scan.service.threat.ThreatProviderResult;
+import com.harsh.sentinal.scan.dto.ThreatProviderResult;
 
 import java.util.ArrayList;
 import java.util.List;

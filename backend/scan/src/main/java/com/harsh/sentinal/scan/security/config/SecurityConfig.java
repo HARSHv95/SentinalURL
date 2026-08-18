@@ -36,6 +36,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/gmail/callback").permitAll()
                         .requestMatchers("/api/v1/scan/shared/**").permitAll()
+                        .requestMatchers("/api/v1/discord/interactions").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(
                         jwtAuthenticationFilter,

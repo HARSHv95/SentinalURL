@@ -1,11 +1,14 @@
 package com.harsh.sentinal.scan.service.ai;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.harsh.sentinal.scan.dto.AIAnalysisResult;
+import com.harsh.sentinal.scan.dto.RawAIAnalysisJson;
 import com.harsh.sentinal.scan.dto.RiskFactor;
+import com.harsh.sentinal.scan.dto.ThreatIntelligenceEvidence;
 import com.harsh.sentinal.scan.entity.DomainIntelligence;
 import com.harsh.sentinal.scan.integration.openai.OpenAIClient;
 import com.harsh.sentinal.scan.integration.openai.OpenAIProperties;
-import com.harsh.sentinal.scan.service.threat.ThreatProviderResult;
+import com.harsh.sentinal.scan.dto.ThreatProviderResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

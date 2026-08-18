@@ -1,6 +1,8 @@
 package com.harsh.sentinal.scan.service.threat;
 
 import com.harsh.sentinal.scan.common.enums.ProviderStatus;
+import com.harsh.sentinal.scan.dto.ThreatAggregationResult;
+import com.harsh.sentinal.scan.dto.ThreatProviderResult;
 import com.harsh.sentinal.scan.util.RiskScoreCalculator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

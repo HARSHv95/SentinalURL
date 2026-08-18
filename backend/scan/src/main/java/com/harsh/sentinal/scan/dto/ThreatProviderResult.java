@@ -1,4 +1,4 @@
-package com.harsh.sentinal.scan.service.threat;
+package com.harsh.sentinal.scan.dto;
 
 import com.harsh.sentinal.scan.common.enums.ProviderStatus;
 
