@@ -5,7 +5,7 @@ const Sidebar = () => {
   return (
     <aside className="w-64 h-screen border-r bg-background p-4">
       <h1 className="text-2xl font-bold mb-8">
-        SentinelURL
+        SentinalURL
       </h1>
 
       <nav className="flex flex-col gap-2">
@@ -20,7 +20,7 @@ const Sidebar = () => {
                 to={item.path}
     className={({ isActive }) =>
         isActive
-            ? "bg-blue-600 text-white rounded-lg px-3 py-2"
+            ? "bg-primary text-primary-foreground rounded-lg px-3 py-2"
             : "hover:bg-muted rounded-lg px-3 py-2"
     }
             >

@@ -46,7 +46,7 @@ export default function GmailConnectionCard() {
         )}
 
         {status?.lastSyncError && (
-          <p className="text-sm text-red-500">
+          <p className="text-sm text-destructive">
             Last sync failed: {status.lastSyncError}
           </p>
         )}

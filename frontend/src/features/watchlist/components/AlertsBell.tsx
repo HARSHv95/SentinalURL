@@ -26,7 +26,7 @@ export default function AlertsBell() {
       <DropdownMenuTrigger className="relative hover:text-primary transition">
         <Bell size={20} />
         {hasUnread && (
-          <span className="absolute -top-1 -right-1 flex size-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-semibold text-white">
+          <span className="absolute -top-1 -right-1 flex size-4 items-center justify-center rounded-full bg-destructive text-[10px] font-semibold text-white">
             {unreadCount! > 9 ? "9+" : unreadCount}
           </span>
         )}

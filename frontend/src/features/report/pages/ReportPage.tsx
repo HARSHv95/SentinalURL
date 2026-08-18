@@ -1,4 +1,4 @@
-import { Shield, ShieldAlert, ShieldCheck, Clock3, FileBarChart } from "lucide-react";
+import { Shield, ShieldAlert, ShieldCheck, Clock3, FileBarChart, FileText } from "lucide-react";
 
 import PageHeader from "../../../shared/components/PageHeader";
 import StatCard from "../../../shared/components/StatCard";
@@ -22,6 +22,7 @@ const ReportPage = () => {
       <PageHeader
         title="Reports"
         description="Analytics and insights across all your scans."
+        icon={FileText}
         actions={
           <Button disabled title="Coming soon">
             Export Report
@@ -54,21 +55,25 @@ const ReportPage = () => {
               title="Total Scans"
               value={data.summary.totalScans}
               icon={<Shield size={28} />}
+              tone="primary"
             />
             <StatCard
               title="Safe URLs"
               value={data.summary.safeCount}
               icon={<ShieldCheck size={28} />}
+              tone="success"
             />
             <StatCard
               title="Malicious URLs"
               value={data.summary.maliciousCount}
               icon={<ShieldAlert size={28} />}
+              tone="destructive"
             />
             <StatCard
               title="Pending"
               value={data.summary.pendingCount}
               icon={<Clock3 size={28} />}
+              tone="warning"
             />
           </div>
 

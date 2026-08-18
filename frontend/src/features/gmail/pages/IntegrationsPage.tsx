@@ -1,4 +1,5 @@
 import { useSearchParams } from "react-router-dom";
+import { Plug } from "lucide-react";
 
 import PageHeader from "../../../shared/components/PageHeader";
 
@@ -16,16 +17,17 @@ export default function IntegrationsPage() {
       <PageHeader
         title="Integrations"
         description="Connect external accounts SentinalURL can monitor for you."
+        icon={Plug}
       />
 
       {connected === "gmail" && (
-        <p className="text-sm text-emerald-600">
+        <p className="text-sm text-green-700 dark:text-green-400">
           Gmail connected successfully.
         </p>
       )}
 
       {error && (
-        <p className="text-sm text-red-500">
+        <p className="text-sm text-destructive">
           Failed to connect Gmail: {error}
         </p>
       )}

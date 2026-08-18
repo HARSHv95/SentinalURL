@@ -38,11 +38,15 @@ export default function OverallVerdict({
 
   const { verdict } = riskReport;
 
+  // Reuses the same success/secondary/warning/destructive tones as
+  // VERDICT_META (lib/verdict.ts) and the Badge variants, instead of a
+  // separate ad hoc 5-color scale — keeps every verdict color in the app
+  // (badges, charts, this card) drawn from the same visual language.
   let Icon = ShieldCheck;
   let title = "Safe";
   let description =
     "No security vendors flagged this URL as malicious.";
-  let textColor = "text-green-600";
+  let textColor = "text-green-600 dark:text-green-400";
 
   switch (verdict) {
     case "LOW_RISK":
@@ -50,7 +54,7 @@ export default function OverallVerdict({
       title = "Low Risk";
       description =
         "The URL appears mostly safe but should be used with caution.";
-      textColor = "text-blue-600";
+      textColor = "text-muted-foreground";
       break;
 
     case "MEDIUM_RISK":
@@ -58,7 +62,7 @@ export default function OverallVerdict({
       title = "Medium Risk";
       description =
         "Some security concerns were detected.";
-      textColor = "text-yellow-600";
+      textColor = "text-yellow-600 dark:text-yellow-400";
       break;
 
     case "HIGH_RISK":
@@ -66,7 +70,7 @@ export default function OverallVerdict({
       title = "High Risk";
       description =
         "Multiple vendors reported suspicious activity.";
-      textColor = "text-orange-600";
+      textColor = "text-yellow-600 dark:text-yellow-400";
       break;
 
     case "CRITICAL":
@@ -74,7 +78,7 @@ export default function OverallVerdict({
       title = "Critical Risk";
       description =
         "This URL is considered malicious and should be avoided.";
-      textColor = "text-red-600";
+      textColor = "text-destructive";
       break;
 
     case "SAFE":

@@ -49,7 +49,7 @@ export default function UrlScanForm({
             />
 
             {errors.url && (
-                <p className="text-sm text-red-500">
+                <p className="text-sm text-destructive">
                     {errors.url.message}
                 </p>
             )}

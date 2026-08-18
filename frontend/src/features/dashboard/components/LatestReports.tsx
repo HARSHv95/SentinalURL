@@ -1,26 +1,24 @@
-import { FileSearch } from "lucide-react";
-
 import DashboardCard from "./DashboardCard";
 
+import TopRiskyDomainsList from "../../report/components/TopRiskyDomainsList";
+import { Skeleton } from "../../../components/ui/skeleton";
+
+import { useReportStats } from "../../report/hooks/useReportStats";
+
 const LatestReports = () => {
+  const { data, isLoading } = useReportStats(30);
+
   return (
     <DashboardCard title="Latest Reports">
-
-      <div className="flex flex-col items-center py-10 text-center">
-
-        <FileSearch
-          className="mb-4 text-muted-foreground"
-          size={40}
-        />
-
-        <p>No reports generated.</p>
-
-        <p className="mt-2 text-sm text-muted-foreground">
-          Reports will appear here once created.
-        </p>
-
-      </div>
-
+      {isLoading ? (
+        <div className="space-y-3">
+          <Skeleton className="h-10 rounded-lg" />
+          <Skeleton className="h-10 rounded-lg" />
+          <Skeleton className="h-10 rounded-lg" />
+        </div>
+      ) : (
+        <TopRiskyDomainsList data={data?.topRiskyDomains ?? []} />
+      )}
     </DashboardCard>
   );
 };

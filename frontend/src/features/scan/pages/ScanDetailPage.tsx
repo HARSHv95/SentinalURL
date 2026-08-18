@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { Check, Plus } from "lucide-react";
+import { Check, FileSearch, Plus } from "lucide-react";
 
 import PageHeader from "../../../shared/components/PageHeader";
 import { Button } from "../../../components/ui/button";
@@ -8,6 +8,7 @@ import { useScan } from "../hooks/useScan";
 import { useAddWatchlistItem } from "../../watchlist/hooks/useAddWatchlistItem";
 
 import ScanReportContent from "../components/ScanReportContent";
+import ScanReportSkeleton from "../components/ScanReportSkeleton";
 import ShareReportDialog from "../components/ShareReportDialog";
 
 export default function ScanDetailsPage() {
@@ -24,26 +25,28 @@ export default function ScanDetailsPage() {
 
   if (isLoading) {
     return (
-      <div className="space-y-6">
+      <div className="space-y-8">
         <PageHeader
           title="Scan Details"
           description="Loading scan..."
+          icon={FileSearch}
         />
 
-        <p>Loading...</p>
+        <ScanReportSkeleton />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="space-y-6">
+      <div className="space-y-8">
         <PageHeader
           title="Scan Details"
           description="Unable to load scan."
+          icon={FileSearch}
         />
 
-        <p className="text-red-500">
+        <p className="text-destructive">
           Failed to load scan.
         </p>
       </div>
@@ -52,20 +55,22 @@ export default function ScanDetailsPage() {
 
   if (!scan) {
     return (
-      <div className="space-y-6">
+      <div className="space-y-8">
         <PageHeader
           title="Scan Details"
           description="Scan not found."
+          icon={FileSearch}
         />
       </div>
     );
   }
 
  return (
-  <div className="space-y-6">
+  <div className="space-y-8">
     <PageHeader
       title="Scan Details"
       description="Detailed URL security report."
+      icon={FileSearch}
       actions={
         <>
           <ShareReportDialog

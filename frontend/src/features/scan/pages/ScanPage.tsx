@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ScanSearch } from "lucide-react";
 
 import PageHeader from "../../../shared/components/PageHeader";
 import { cn } from "../../../lib/utils";
@@ -6,6 +7,7 @@ import { cn } from "../../../lib/utils";
 import UrlScanForm from "../components/UrlScanForm";
 import QrUploadInput from "../components/QrUploadInput";
 import ScanGrid from "../components/ScanGrid";
+import ScanListSkeleton from "../components/ScanListSkeleton";
 
 import { useCreateScan } from "../hooks/useCreateScan";
 import { useScans } from "../hooks/useScans";
@@ -43,14 +45,15 @@ export default function ScanPage() {
       <PageHeader
         title="URL Scanner"
         description="Analyze a URL for potential threats."
+        icon={ScanSearch}
       />
 
-      <div className="flex gap-2">
+      <div className="inline-flex w-fit gap-1 rounded-lg bg-muted p-1">
         <button
           type="button"
           className={cn(
-            "rounded-lg px-3 py-1.5 text-sm font-medium",
-            mode === "url" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+            "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+            mode === "url" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
           )}
           onClick={() => setMode("url")}
         >
@@ -59,8 +62,8 @@ export default function ScanPage() {
         <button
           type="button"
           className={cn(
-            "rounded-lg px-3 py-1.5 text-sm font-medium",
-            mode === "qr" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+            "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+            mode === "qr" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
           )}
           onClick={() => setMode("qr")}
         >
@@ -84,7 +87,7 @@ export default function ScanPage() {
         </h2>
 
         {isLoading ? (
-          <p>Loading scans...</p>
+          <ScanListSkeleton count={RECENT_SCANS_FILTERS.size} />
         ) : (
           <ScanGrid scans={scans} />
         )}

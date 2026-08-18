@@ -21,13 +21,13 @@ export default function ScanInfoCard({
 
     <Card>
 
-      <CardContent className="space-y-5 p-6">
+      <CardContent className="space-y-5 p-5">
 
         <div className="flex items-start justify-between gap-4">
 
           <div className="flex gap-3">
 
-            <Globe className="mt-1 h-5 w-5 text-muted-foreground" />
+            <Globe className="mt-1 size-5 text-muted-foreground" />
 
             <div>
 
@@ -49,7 +49,7 @@ export default function ScanInfoCard({
 
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
 
-          <CalendarDays className="h-4 w-4" />
+          <CalendarDays className="size-4" />
 
           <span>
 

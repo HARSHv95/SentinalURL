@@ -1,4 +1,5 @@
 import { useSearchParams } from "react-router-dom";
+import { Eye } from "lucide-react";
 
 import PageHeader from "../../../shared/components/PageHeader";
 import PaginationBar from "../../../shared/components/PaginationBar";
@@ -41,6 +42,7 @@ export default function WatchlistPage() {
       <PageHeader
         title="Watchlist"
         description="Keep an eye on URLs — get alerted when their SSL, reputation, or DNS/WHOIS records change."
+        icon={Eye}
       />
 
       <AddToWatchlistForm
