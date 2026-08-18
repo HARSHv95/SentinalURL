@@ -1,6 +1,4 @@
-package com.harsh.sentinal.scan.service.threat;
-
-import com.harsh.sentinal.scan.dto.RiskReport;
+package com.harsh.sentinal.scan.dto;
 
 import java.util.List;
 

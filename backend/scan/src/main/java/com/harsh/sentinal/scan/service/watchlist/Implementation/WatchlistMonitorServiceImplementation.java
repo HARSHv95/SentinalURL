@@ -11,7 +11,7 @@ import com.harsh.sentinal.scan.integration.whois.WhoisClient;
 import com.harsh.sentinal.scan.integration.whois.WhoisParser;
 import com.harsh.sentinal.scan.repository.WatchlistAlertRepo;
 import com.harsh.sentinal.scan.repository.WatchlistItemRepo;
-import com.harsh.sentinal.scan.service.threat.ThreatAggregationResult;
+import com.harsh.sentinal.scan.dto.ThreatAggregationResult;
 import com.harsh.sentinal.scan.service.threat.ThreatAggregationService;
 import com.harsh.sentinal.scan.service.watchlist.WatchlistMonitorService;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.harsh.sentinal.scan.service;
+package com.harsh.sentinal.scan.service.scan;
 
 import com.harsh.sentinal.scan.common.enums.ScanSortOption;
 import com.harsh.sentinal.scan.common.enums.ScanStatus;

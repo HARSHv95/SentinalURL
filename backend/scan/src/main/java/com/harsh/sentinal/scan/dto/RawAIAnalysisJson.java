@@ -1,4 +1,4 @@
-package com.harsh.sentinal.scan.service.ai;
+package com.harsh.sentinal.scan.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

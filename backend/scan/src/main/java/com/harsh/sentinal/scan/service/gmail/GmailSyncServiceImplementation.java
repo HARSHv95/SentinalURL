@@ -1,4 +1,4 @@
-package com.harsh.sentinal.scan.service.gmail.Implementation;
+package com.harsh.sentinal.scan.service.gmail;
 
 import com.harsh.sentinal.scan.entity.EmailScanBatch;
 import com.harsh.sentinal.scan.entity.GmailConnection;
@@ -9,8 +9,7 @@ import com.harsh.sentinal.scan.integration.gmail.GmailProperties;
 import com.harsh.sentinal.scan.integration.gmail.GmailTokenResponse;
 import com.harsh.sentinal.scan.repository.EmailScanBatchRepo;
 import com.harsh.sentinal.scan.repository.GmailConnectionRepo;
-import com.harsh.sentinal.scan.service.ScanService;
-import com.harsh.sentinal.scan.service.gmail.GmailSyncService;
+import com.harsh.sentinal.scan.service.scan.ScanService;
 import com.harsh.sentinal.scan.util.GmailMessageParser;
 import com.harsh.sentinal.scan.util.TokenEncryptionService;
 import com.harsh.sentinal.scan.util.UrlValidator;

@@ -10,7 +10,7 @@ import com.harsh.sentinal.scan.dto.ScanResponse;
 import com.harsh.sentinal.scan.dto.ShareLinkResponse;
 import com.harsh.sentinal.scan.integration.virustotal.VirusTotalClient;
 import com.harsh.sentinal.scan.security.principal.CustomUserDetails;
-import com.harsh.sentinal.scan.service.ScanService;
+import com.harsh.sentinal.scan.service.scan.ScanService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

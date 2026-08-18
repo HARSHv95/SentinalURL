@@ -1,4 +1,4 @@
-package com.harsh.sentinal.scan.service.Implementation;
+package com.harsh.sentinal.scan.service.scan;
 
 import com.harsh.sentinal.scan.common.enums.ScanSortOption;
 import com.harsh.sentinal.scan.common.enums.ScanStatus;
@@ -14,7 +14,6 @@ import com.harsh.sentinal.scan.repository.ProviderResultRepo;
 import com.harsh.sentinal.scan.repository.ScanRepo;
 import com.harsh.sentinal.scan.repository.specification.ScanSpecifications;
 import com.harsh.sentinal.scan.security.principal.CustomUserDetails;
-import com.harsh.sentinal.scan.service.ScanService;
 import com.harsh.sentinal.scan.service.background.BackService;
 import com.harsh.sentinal.scan.util.RiskScoreCalculator;
 import lombok.RequiredArgsConstructor;

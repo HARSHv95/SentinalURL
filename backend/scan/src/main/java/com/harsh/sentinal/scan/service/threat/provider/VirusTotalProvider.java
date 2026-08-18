@@ -4,7 +4,7 @@ import com.harsh.sentinal.scan.dto.AnalysisResponse;
 import com.harsh.sentinal.scan.integration.virustotal.VirusTotalClient;
 import com.harsh.sentinal.scan.common.enums.ProviderStatus;
 import com.harsh.sentinal.scan.service.threat.ThreatProvider;
-import com.harsh.sentinal.scan.service.threat.ThreatProviderResult;
+import com.harsh.sentinal.scan.dto.ThreatProviderResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
